@@ -1,0 +1,11 @@
+body {
+    background-color: lightgray;
+}
+
+form {
+    display: flex;
+}
+
+.main{
+    margin: 10px;
+}
