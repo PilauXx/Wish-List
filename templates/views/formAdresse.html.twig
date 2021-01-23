@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wish-List{% endblock %}
+
+{% block body %}
+    <h1 class="title">Secrétariat - Ajouter/Modifier des adresses</h1>
+    <br>
+    {{ form_start(formAdresse) }}
+        {{ form_widget(formAdresse) }}
+        <button type="submit" class"btn btn-success">Enregistrer</button>
+    {{ form_end(formAdresse) }}
+{% endblock %}

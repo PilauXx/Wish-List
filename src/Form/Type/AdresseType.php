@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Type;
+namespace App\Form\Type;
 
 use App\Entity\Adresse;
 use Symfony\Component\Form\AbstractType;
@@ -12,14 +12,13 @@ class AdresseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('num_rue')
             ->add('rue')
-            ->add('ville')
+            ->add('num_rue')
             ->add('code_post')
+            ->add('ville')
         ;
     }
 
-    
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
