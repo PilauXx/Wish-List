@@ -6,6 +6,7 @@ use App\Repository\PersonneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Adresse;
 
 /**
  * @ORM\Entity(repositoryClass=PersonneRepository::class)
@@ -30,12 +31,6 @@ class Personne
     private $sexe;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="personnes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $adresse;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Cadeau::class, inversedBy="personnes")
      */
     private $souhaits;
@@ -44,6 +39,12 @@ class Personne
      * @ORM\Column(type="datetime")
      */
     private $date_nais;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="personnes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $adresse;
 
     public function __construct()
     {
@@ -80,18 +81,6 @@ class Personne
         return $this;
     }
 
-    public function getAdresse(): ?Adresse
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?Adresse $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Cadeau[]
      */
@@ -124,6 +113,18 @@ class Personne
     public function setDateNais(\DateTimeInterface $date_nais): self
     {
         $this->date_nais = $date_nais;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

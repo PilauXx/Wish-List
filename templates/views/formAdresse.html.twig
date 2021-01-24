@@ -7,6 +7,7 @@
     <br>
     {{ form_start(formAdresse) }}
         {{ form_widget(formAdresse) }}
-        <button type="submit" class"btn btn-success">Enregistrer</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
     {{ form_end(formAdresse) }}
+    {{ parent() }}
 {% endblock %}
