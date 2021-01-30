@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wish-List{% endblock %}
+
+{% block body %}
+
+    <h1 class="title">Votre Stock de cadeaux</h1>
+    <br>
+    <div class="d-grid gap-2">
+        <a href="/stock/gestionCadeau" class="bouton" >
+            <button class="btn btn-primary" type="button">Gérer les cadeaux</button>
+        </a>
+        <a href="/stock/gestionCategorie" class="bouton" >
+            <button class="btn btn-primary" type="button">Gérer les catégories</button>
+        </a>
+    </div>
+    <br>
+    <h3>Liste des cadeaux : </h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Désignation</th>
+                <th>Age requie</th>
+                <th>Prix moyen</th>
+                <th>catégorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cadeau in cadeaux %}
+            <tr>
+                <td>{{ cadeau.id }}</td>
+                <td>{{ cadeau.designation }}</td>
+                <td>{{ cadeau.ageMin }}</td>
+                <td>{{ cadeau.prixMoyen }}</td>
+                <td>{{ cadeau.categorie.nom }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+{% endblock %}

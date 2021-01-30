@@ -49,7 +49,8 @@ class SecretariaController extends AbstractController
         $form = $this->createForm(PersonneType::class, $personne);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $manager->persist($personne);
             $manager->flush();
     
@@ -72,6 +73,17 @@ class SecretariaController extends AbstractController
         return $this->render('views/secretGesPersonne.html.twig', [
             'personnes' => $personneRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/suprPersonne/{id}", name="supr_personne")
+     */
+    public function suprPersonne(Personne $personne = null, 
+    Request $request, EntityManagerInterface $manager)
+    {
+        $manager->remove($personne);
+        $manager->flush();
+        return $this->redirectToRoute('ges_personne');
     }
 
     /**
@@ -110,5 +122,25 @@ class SecretariaController extends AbstractController
             'formAdresse' => $form->createView(),
             'edit' => $adresse->getId() !==null
         ]);
+    }
+
+    /**
+     * @Route("/suprAdresse/{id}", name="supr_adresse")
+     */
+    public function suprAdresse(Adresse $adresse = null, 
+     EntityManagerInterface $manager)
+    {   
+        if($adresse->getPersonnes()->count() == 0)
+        {
+            $manager->remove($adresse);
+            $manager->flush();
+            return $this->redirectToRoute('ges_adresse');
+        }else{
+            $this->addFlash(
+                'notice',
+                'Cette adresse est encore utilisée'
+            );
+            return $this->redirectToRoute('ges_adresse');
+        }
     }
 }

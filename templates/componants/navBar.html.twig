@@ -12,12 +12,18 @@
                         <a class="nav-link active" aria-current="page" href="/secretariat">Secrétariat</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/stocks">Gestionnaire des stocks</a>
+                        <a class="nav-link active" aria-current="page" href="/stock">Gestionnaire des stocks</a>
                     </li>
                 </ul>
-                <li class="nav-item d-flex">
-                    <a class="nav-link active" aria-current="page" href="/stocks">Se connecter</a>
-                </li>
+                {% if not app.user %}
+                    <li class="nav-item d-flex">
+                        <a class="nav-link active" aria-current="page" href="{{ path('security_login') }}">Se connecter</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item d-flex">
+                        <a class="nav-link active" aria-current="page" href="{{ path('security_logout') }}">Se deconnecter</a>
+                    </li>
+                {% endif %}
             </div>
         </div>
     </nav>

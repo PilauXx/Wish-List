@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wish-List{% endblock %}
+
+{% block body %}
+    <h1 class="title">Stock - gestion des catégories de cadeau</h1>
+    <br>
+    <a href="/stock/newCategorie" class="bouton" >
+        <button class="btn btn-primary" type="button">Ajouter une catégories</button>
+    </a>
+    <br>
+    <h3>Liste des catégories : </h3>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+             <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td>
+                    <a href="/stock/editCategorie/{{ categorie.id }}" >
+                        <button type="button" class="btn btn-primary">Modifier</button>
+                    </a>
+                    <a href="/stock/editCategorie/{{ categorie.id }}" >
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

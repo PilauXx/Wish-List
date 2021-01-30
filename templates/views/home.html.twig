@@ -6,4 +6,38 @@
 
     <h1 class="title">Welcome on the Wish-List</h1>
 
+    <h3>Selectionner une ville pour voir toutes les adresses enregistrées !</h3>
+
+    <form action="" method="post" class="selecteur">
+        <select name="ville">
+            {% for adresse in allAdresses %}
+                <option value="{{ adresse.ville }}">{{ adresse.ville }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Visionner</button>
+    </form>
+
+    {% if adresses != null %}
+        <br>
+        <h3>Voici les adresses enregistrée pour la ville : </h3>
+            <ul>
+            {% for adresse in adresses %}
+                    <li><p>{{ adresse.numRue }} rue {{ adresse.rue }} {{ adresse.ville }} <P></li>
+                    <p>Habitant(s) : </p>
+                    {% for personne in adresse.personnes %}
+                        <ul>
+                            <li>{{ personne.nomPrenom }}</li>
+                            <p>Cadeaux souhaité : </p>
+                            {% for cadeau in personne.souhaits %}
+                                <ul>
+                                    <li>{{ cadeau.designation }} | Prix : {{cadeau.prixMoyen}} €</li>
+                                </ul>
+                            {% endfor %}
+                        </ul>  
+                    {% endfor %}
+            {% endfor %}
+            </ul>
+    {% endif %}
+
 {% endblock %}
+
