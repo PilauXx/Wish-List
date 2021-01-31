@@ -8,18 +8,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/secretariat">Secrétariat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/stock">Gestionnaire des stocks</a>
-                    </li>
+                    {% if is_granted('ROLE_SECRETAIRE') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/secretariat">Secrétariat</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_STOCK_MAN') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/stock">Gestionnaire des stocks</a>
+                        </li>
+                    {% endif %}
                     <li>
-                        <a class="nav-link active" aria-current="page" href="/souhait">Listes de souhait</a>
+                       <a class="nav-link active" aria-current="page" href="/souhait">Listes de souhait</a>
                     </li>
-                     <li>
-                        <a class="nav-link active" aria-current="page" href="/stat">Statistique</a>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a class="nav-link active" aria-current="page" href="/stat">Statistique</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 {% if not app.user %}
                     <li class="nav-item d-flex">

@@ -29,9 +29,11 @@
                     <a href="/stock/editCategorie/{{ categorie.id }}" >
                         <button type="button" class="btn btn-primary">Modifier</button>
                     </a>
-                    <a href="/stock/editCategorie/{{ categorie.id }}" >
-                        <button type="button" class="btn btn-danger">Supprimer</button>
-                    </a>
+                    {% if categorie.cadeaux.count == 0  %}
+                        <a href="/stock/editCategorie/{{ categorie.id }}" >
+                            <button type="button" class="btn btn-danger">Supprimer</button>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

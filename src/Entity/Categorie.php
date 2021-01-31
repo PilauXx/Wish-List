@@ -84,10 +84,13 @@ class Categorie
     public function calculPrixMoy()
     {
         $som = 0;
-        foreach($this->getCadeaux() as $cadeau){
-            $som += $cadeau->getPrixMoyen();
+        if($this->getCadeaux()->count() > 0){
+            foreach($this->getCadeaux() as $cadeau){
+                $som += $cadeau->getPrixMoyen();
+            }
+    
+            return $som/$this->getCadeaux()->count(); 
         }
-
-        return $som/$this->getCadeaux()->count(); 
+        return 0; 
     } 
 }

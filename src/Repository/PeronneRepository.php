@@ -19,6 +19,19 @@ class PeronneRepository extends ServiceEntityRepository
         parent::__construct($registry, Peronne::class);
     }
 
+
+    public function findCategoriByTrancheAge($min, $max)
+    {
+        // ERREUR : min et max ne sont pas des dates
+        return $this->creatQueryBuilder('p')
+            ->where('p.dateNais > :min AND p.dateNais < :max')
+            ->setParameter('min', $min)
+            ->setParameter('max', $max)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Peronne[] Returns an array of Peronne objects
     //  */

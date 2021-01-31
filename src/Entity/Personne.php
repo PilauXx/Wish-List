@@ -49,7 +49,6 @@ class Personne
 
     public function __construct()
     {
-        $this->adresse = new ArrayCollection();
         $this->souhaits = new ArrayCollection();
     }
 

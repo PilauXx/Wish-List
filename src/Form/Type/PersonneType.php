@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Personne;
+use App\Entity\Adresse;
 use App\Form\Type\AdresseType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PersonneType extends AbstractType
 {
@@ -33,7 +35,13 @@ class PersonneType extends AbstractType
                     'class' => 'form-control'
                     ]
                 ])
-            ->add('adresse', AdresseType::class)
+            ->add('adresse', EntityType::class, [
+                'class' => Adresse::class,
+                'choice_label' => function ($adresse) {
+                    return $adresse->getNumRue() . ' ' . $adresse->getRue() . ', ' .
+                    $adresse->getVille();
+                }
+            ])
             ->getForm()
         ;
     }

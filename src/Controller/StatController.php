@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Cadeau;
 use App\Repository\CadeauRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\PersonneRepository;
+use App\Repository\CategorieRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Cadeau;
-use App\Repository\CategorieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/stat")
@@ -87,11 +89,39 @@ class StatController extends AbstractController
     /**
      * @Route("/tranche_age", name="tranche_age")
      */
-    public function trancheAge(Request $request)
+    public function trancheAge(Request $request, PersonneRepository $personneRepositoriy)
     {
         if($request->request->count() > 0 )
         {
-            //TODO getCategorie en fonction de la tranche d'age
+            //TODO utiliser un queryBuilder
+
+            $min = $request->request->get('min');
+            $max = $request->request->get('max');
+
+            $categorie = new ArrayCollection();
+            
+            $personnes = $personneRepositoriy->findAll();
+
+            // C'est lourd de ouf :/ 
+            foreach($personnes as $personne)
+            {
+                if($personne->getAge() > $min && $personne->getAge() < $max)
+                {
+                    foreach($personne->getSouhaits() as $cadeau)
+                    {
+                        if(!$categorie->contains($cadeau->getCategorie()))
+                        {
+                            $categorie->add($cadeau->getCategorie());
+                        }
+                    }         
+                }
+            }
+
+            return $this->render('stat/trancheAge.html.twig',[
+                'agePetit' => $min,
+                'ageGrand' => $max,
+                'categories' => $categorie
+            ]);
         }
 
         return $this->render('stat/trancheAge.html.twig',[

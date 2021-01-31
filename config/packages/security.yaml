@@ -22,6 +22,7 @@ security:
             form_login:
                 login_path: security_login
                 check_path: security_login
+                default_target_path: home
 
             logout:
                 path: security_logout
@@ -35,9 +36,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/secretariat, roles: ROLE_PERE_NOEL }
         - { path: ^/secretariat, roles: ROLE_SECRETAIRE }
-        - { path: ^/stock, roles: ROLE_PERE_NOEL }
         - { path: ^/stock, roles: ROLE_STOCK_MAN }
-        - { path: ^/souhait, roles: ROLE_PERE_NOEL}
-        - { path: ^/stat, roles: ROLE_PERE_NOEL}
+        - { path: ^/stat, roles: ROLE_ADMIN}
+    
+    role_hierarchy:
+        ROLE_SECRETAIRE: ROLE_USER
+        ROLE_STOCK_MAN: ROLE_USER
+        ROLE_ADMIN: ROLE_SECRETAIRE, ROLE_STOCK_MAN

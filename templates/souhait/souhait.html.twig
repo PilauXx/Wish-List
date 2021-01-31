@@ -6,14 +6,19 @@
 
     <h1>Voici les listes de souhait</h1>
     <br>
+    {% if is_granted('ROLE_ADMIN') %}
     <h3>Selection une personne</h3>
+    {% else %}
+        <h3>Selectionnez votre nom</h3>
+        <p>Si votre nom n'apparait pas dans la liste, veuillez contacter le secrétariat.</p>
+    {% endif %}
     <form action="" method="post" class="selecteur">
         <select name="id">
             {% for personne in personnes %}
                 <option value="{{ personne.id }}">{{ personne.nomPrenom }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Visionner</button>
+        <button type="submit">Visionner la liste</button>
     </form>
 
     {% if listPersonne != null %}
