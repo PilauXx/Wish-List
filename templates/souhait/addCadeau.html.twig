@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wish-List{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter un cadeau pour {{ personne.nomPrenom }}</h1>
+    {# TODO adapter en pop-up  #}
+    {% for message in app.flashes('notice') %}
+        <br>
+        <br>
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+        <br>
+    {% endfor %}
+    {# TODO -------------------#}
+    <br>
+    <br>
+    <h3>Selection un cadeau</h3>
+    <form action="" method="post" class="selecteur">
+        <select name="cadeau">
+            {% for cadeau in cadeaux %}
+                <option value="{{ cadeau.id }}">{{ cadeau.designation }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ajouter</button>
+    </form>
+    
+{% endblock %}
+

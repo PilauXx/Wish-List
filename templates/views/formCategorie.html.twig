@@ -4,10 +4,14 @@
 
 {% block body %}
     <h1 class="title">Stock - Ajouter/Modifier des catégories</h1>
-    <br>
+    <br><br>
     {{ form_start(form) }}
         {{ form_widget(form) }}
+        <label for="modifPrix">Modifier les prix de la catégorie (en %)</label>
+        <input type="number" name="modifPrix" placeholder="100%">
         <button type="submit" class="btn btn-success">Enregistrer</button>
     {{ form_end(form) }}
+    <br><br>
+
     {{ parent() }}
 {% endblock %}

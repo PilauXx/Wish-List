@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Adresse;
 
+
 /**
  * @ORM\Entity(repositoryClass=PersonneRepository::class)
  */
@@ -127,6 +128,14 @@ class Personne
         $this->adresse = $adresse;
 
         return $this;
+    }
+
+    public function getAge(): int
+    {
+        $datetime1 = new \DateTime(); // date actuelle
+        $age = date_diff($datetime1, $this->getDateNais())->y;
+
+        return $age;
     }
 
 }

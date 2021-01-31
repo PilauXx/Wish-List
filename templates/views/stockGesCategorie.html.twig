@@ -8,7 +8,7 @@
     <a href="/stock/newCategorie" class="bouton" >
         <button class="btn btn-primary" type="button">Ajouter une catégories</button>
     </a>
-    <br>
+    <br><br>
     <h3>Liste des catégories : </h3>
     <br>
     <table class="table">
@@ -16,6 +16,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
+                <th>Pirx moyen<th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +24,7 @@
              <tr>
                 <td>{{ categorie.id }}</td>
                 <td>{{ categorie.nom }}</td>
+                <td>{{ categorie.calculPrixMoy }}
                 <td>
                     <a href="/stock/editCategorie/{{ categorie.id }}" >
                         <button type="button" class="btn btn-primary">Modifier</button>

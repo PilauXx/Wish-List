@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StatController!{% endblock %}
+
+{% block body %}
+    <h1>Voire le souait de catégories de cadeau en fonction d'une tranche d'age</h1>
+    <br><br>
+    <h3>Choisir la tranche d'age</h3>
+    <form action="" method="post" class="selecteur">
+        <p>
+            Entre :
+            <input type="number" name="min"> ans 
+            et
+            <input type="number" name="max  "> ans 
+        </p>
+        <button type="submit" class="btn btn-success">Voir</button>
+    </form>
+    <br><br>
+    {% if categories != null %}
+    <h5>Voici les categorie les plus convoitées pour les {{agePetit}}/{{ageGrand}} ans.</h5>
+        {% for categori in categories %}
+            <ul>
+                <li>{{ categori.nom }}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

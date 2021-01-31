@@ -40,10 +40,16 @@ class StockController extends AbstractController
      * @Route("/editCadeau/{id}", name="edit_cadeau")
      */
     public function new(Cadeau $cadeau = null, Request $request, 
-        EntityManagerInterface $manager)
+        EntityManagerInterface $manager, CadeauRepository $cadeauRepositiry)
     {
+        $designation = null;
+
         if(!$cadeau){
             $cadeau = new Cadeau();
+        }else{
+            $tmpCadeau = new Cadeau();
+            $tmpCadeau = $cadeauRepositiry->find($cadeau->getId());
+            $designation = $tmpCadeau->getDesignation();
         }
 
         $form = $this->createForm(CadeauType::class, $cadeau);
@@ -51,6 +57,9 @@ class StockController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            if($designation){
+                $cadeau->setDesignation($designation);
+            }
             $manager->persist($cadeau);
             $manager->flush();
     
@@ -72,6 +81,24 @@ class StockController extends AbstractController
             'cadeaux' => $cadeauRepositiry->findAll()
         ]);
     } 
+
+    /**
+     * @Route("/suprCadeau/{id}", name="supr_cadeau")
+     */
+    public function suprCadeau(Cadeau $cadeau = null, CadeauRepository $cadeauRepositiry,
+    EntityManagerInterface $manager)
+    {
+        if($cadeau->getPersonnes()->count() == 0){
+            $manager->remove($cadeau);
+            $manager->flush();
+        }else{
+            $this->addFlash(
+                'notice',
+                'Cette cadeau est désiré par quelqu\'un ! Vous ne pouvez pas le suprimer.'
+            );
+        }
+        return $this->redirectToRoute('ges_stock');
+    }
 
     /**
      * @Route("/gestionCategorie", name="ges_categorie")
@@ -100,6 +127,17 @@ class StockController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid() )
         {
+            if($request->request->get('modifPrix')!=null)
+            {
+                $cadeaux = $categorie->getCadeaux();
+                foreach($cadeaux as $cadeau){
+                    $prix = $cadeau->getPrixMoyen();
+                    $diviser = $request->request->get('modifPrix')/100;
+                    $prix = $prix + ($prix*$diviser);
+                    $cadeau->setPrixMoyen($prix);
+                    $manager->persist($cadeau);
+                }
+            }
             $manager->persist($categorie);
             $manager->flush();
     

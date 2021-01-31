@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StatController!{% endblock %}
+
+{% block body %}
+    <h1>Voici les statistiques de WishList</h1>
+    <br><br>
+    <div class="section">
+        <h3>Calculer la parité homme/femme d'un cadeau</h3>
+        <br>
+        <h5>Selection un cadeau</h5>
+        <form action="" method="post" class="selecteur">
+            <select name="cadeau">
+                {% for cadeau in cadeaux %}
+                    <option value="{{ cadeau.id }}">{{ cadeau.designation }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Ajouter</button>
+        </form>
+        {% if currentCadeau != null %}
+            <br><br>
+            <h5>Pour le cadeau : {{ currentCadeau.designation }}</h5>
+            <ul>
+                <li>Homme : {{ homme }}%</lI>
+                <li>Femme : {{ femme }}%</lI>
+                <li>Autre : {{ autre }}%</lI>
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="section">    
+        <a href="/stat/tranche_age" class="bouton" >
+            <button class="btn btn-primary" type="button">En fonction des tranches d'age</button>
+        </a>
+    </div>
+
+    <div class="section">
+        <h3>Prix moyen par catégorie de cadeau</h3>
+        <br>
+        <ul>
+        {% for categorie in categories %}
+            <li>{{ categorie.nom }} : {{ categorie.calculPrixMoy }} €</li>
+        {% endfor %}
+        </ul>
+    <div>
+
+{% endblock %}

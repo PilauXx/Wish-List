@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wish-List{% endblock %}
+
+{% block body %}
+
+    <h1>Voici les listes de souhait</h1>
+    <br>
+    <h3>Selection une personne</h3>
+    <form action="" method="post" class="selecteur">
+        <select name="id">
+            {% for personne in personnes %}
+                <option value="{{ personne.id }}">{{ personne.nomPrenom }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Visionner</button>
+    </form>
+
+    {% if listPersonne != null %}
+    <br><br>    
+        <h4>Voici le(s) cadeau(x) souhaité par {{listPersonne.nomPrenom}} : </h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Désignation</th>
+                    <th>Age requie</th>
+                    <th>Prix moyen</th>
+                    <th>catégorie</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cadeau in listPersonne.souhaits %}
+                    <tr>
+                        <td>{{ cadeau.designation }}</td>
+                        <td>{{ cadeau.ageMin }}</td>
+                        <td>{{ cadeau.prixMoyen }}</td>
+                        <td>{{ cadeau.categorie.nom }}</td>
+                        <td>                    
+                            <a href="/souhait/suprCadeau/{{ listPersonne.id }}-{{ cadeau.id }}" >
+                                <button type="button" class="btn btn-danger">Retirer</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/souhait/addCadeau/{{ listPersonne.id }}" >
+            <button type="button" class="btn btn-primary">Ajouter un cadeau à la list</button>
+        </a>
+    {% endif %}
+{% endblock %}

@@ -10,11 +10,8 @@ use App\Form\Type\AdresseType;
 use App\Repository\AdresseRepository;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\ar_JO\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,11 +36,18 @@ class SecretariaController extends AbstractController
      * @Route("/editPersonne/{id}", name="edit_personne")
      */
     public function new(Personne $personne = null, 
-        Request $request, EntityManagerInterface $manager)
+        Request $request, EntityManagerInterface $manager, PersonneRepository $personneRepository)
     {
+        $nom = null;
+
         if(!$personne)
         {
             $personne = new Personne();
+        }else{
+            //Ne pas changer le nom_prenom
+            $tmpPersonne = new Personne();
+            $tmpPersonne = $personneRepository->find($personne->getId());
+            $nom = $tmpPersonne->getNomPrenom();
         }
 
         $form = $this->createForm(PersonneType::class, $personne);
@@ -51,10 +55,13 @@ class SecretariaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) 
         {
+            if($nom){
+                $personne->setNomPrenom($nom);
+            }            
             $manager->persist($personne);
             $manager->flush();
     
-            return $this->redirectToRoute('ges_adresse');
+            return $this->redirectToRoute('ges_personne');
         }
         
         
@@ -134,13 +141,12 @@ class SecretariaController extends AbstractController
         {
             $manager->remove($adresse);
             $manager->flush();
-            return $this->redirectToRoute('ges_adresse');
         }else{
             $this->addFlash(
                 'notice',
                 'Cette adresse est encore utilisée'
             );
-            return $this->redirectToRoute('ges_adresse');
         }
+        return $this->redirectToRoute('ges_adresse');
     }
 }
